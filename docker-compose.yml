@@ -1,0 +1,29 @@
+version: "3"
+services:
+  employee-jdbc:
+    image: docker-springboot-mysql
+    ports:
+      - "8080:8080"
+    networks:
+      - employee-mysql
+    depends_on:
+      - mysqldb
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb/bootdb?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+ 
+  mysqldb:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    networks:
+      - employee-mysql
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bootdb  
+
+networks:
+  employee-mysql:
